@@ -1,0 +1,13 @@
+config.ini
+*.pyc
+__pycache__
+.ropeproject
+.autoenv.zsh
+dist/
+*.egg-info/
+*_map.html
+style.css
+.idea
+.DS_Store
+venv
+.venv
