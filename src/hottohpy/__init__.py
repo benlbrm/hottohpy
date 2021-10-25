@@ -1,4 +1,4 @@
-from hottoh import Hottoh
-from const import *
+from .hottoh import *
+from .const import *
 
-__version__ = "0.0.1"
+__version__ = "0.0.4"
