@@ -61,8 +61,8 @@ class Hottoh:
         if self.is_connected or self.periodic_connection_running:
             return
 
-        self._thread.daemon = True
         self._thread.start()
+        self._thread.daemon()
 
         self.time = time.time()  # save connection time
 
@@ -105,27 +105,6 @@ class Hottoh:
         # Split data to an array
         return data.split(";")
             
-    async def _fetch(self, command, parameters):
-        """Get data from the stove"""
-        try:
-            # mutex.acquire()
-            request = Request(command=command, parameters=parameters)
-            reader, writer = await asyncio.open_connection(self.ip, self.port)
-            writer.write(request.getRequest())
-            await writer.drain()
-            data = await reader.read(self._buffsize)
-            _LOGGER.debug(data)
-            writer.close()
-            await writer.wait_closed()
-            # mutex.release()
-            _fetching = False
-            return self._extractData(f"{data}")
-        except:
-
-            # mutex.release()
-            raise
-
-
     def _getMac(self):
         return "aabbccddeeff"
 

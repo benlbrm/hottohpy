@@ -20,6 +20,7 @@ class HottohRemoteClient:
     _data = None
     _write_request = False
     _write_parameters = None
+    _disconnect_request = False
     socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     def __init__(self, address="192.168.4.10", port=5001):
@@ -63,9 +64,12 @@ class HottohRemoteClient:
         return False
 
     def disconnect(self):
-        self._thread.stop()
+        self._disconnect_request = True
+
+    def _disconnect(self):
         self.socket.close()
         self.was_connected = False
+        self._disconnect_request = False
 
     def _get_data(self, command, parameters):
         request = Request(command=command, parameters=parameters)
@@ -85,8 +89,9 @@ class HottohRemoteClient:
             self.socket.connect((self.address, self.port))
             self.was_connected = True
             
-            self._thread.daemon = True
             self._thread.start()
+            self._thread.daemon()
+
 
     def _extractData(self, data):
         # Split data to an array
@@ -98,20 +103,25 @@ class HottohRemoteClient:
         return True
 
     def loop(self):
-        while True:
-            # Get info
-            self._info = self._get_data("INF", [""])
-            # self.log.debug("Information Data %s", self._info)
-            # Get Data
-            self._data = self._get_data("DAT", ["0"])
-            # self.log.debug("Information Data %s", self._data)
-            # Write if needed
-            if self._write_request:
-                self.log.debug("Send Command %s", self._write_parameters)
-                res = self._set_data(self._write_parameters)
-                self._write_request = False
-            
-            time.sleep(1)
+        while not self._disconnect_request:
+            try:
+                # Get info
+                self._info = self._get_data("INF", [""])
+                # self.log.debug("Information Data %s", self._info)
+                # Get Data
+                self._data = self._get_data("DAT", ["0"])
+                # self.log.debug("Information Data %s", self._data)
+                # Write if needed
+                if self._write_request:
+                    self.log.debug("Send Command %s", self._write_parameters)
+                    res = self._set_data(self._write_parameters)
+                    self._write_request = False
+                
+                time.sleep(1)
+            except socket.error as exc:
+                self.log.error("Connection Error : %s", exc)
+
+        self._disconnect()
 
             
 
