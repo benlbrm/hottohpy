@@ -89,8 +89,9 @@ class HottohRemoteClient:
             self.socket.connect((self.address, self.port))
             self.was_connected = True
             
+            self._thread.daemon = True
             self._thread.start()
-            self._thread.daemon()
+            
 
 
     def _extractData(self, data):
