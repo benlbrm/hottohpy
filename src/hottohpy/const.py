@@ -20,6 +20,7 @@ class StoveState(IntEnum):
     STATUS_END_PELLET = 15
     STATUS_BLACK_OUT = 16
     STATUS_ANTI_FREEZE = 17
+    STATUS_INGNITION_FAILED = 60
 
 
 class StoveChronoMode(IntEnum):

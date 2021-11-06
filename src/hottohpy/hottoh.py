@@ -218,6 +218,7 @@ class Hottoh:
         return float(self._getSetTemperatureRoom1())
     
     def get_action(self):
+        self.log.debug('Stove Action: ' + self._getStoveState())
         if self._getStoveState() in ['switched_off', 'black_out', 'eco_stop_2', 'eco_stop_3']:
             return 'off'
         if self._getStoveState() in ['starting_1_check']:
@@ -240,7 +241,7 @@ class Hottoh:
             return 'idle'
         if self._getStoveState() in ['low_pellet', 'end_pellet']:
             return 'end_pellet'
-        return 'off'
+        return self._getStoveState()
 
     def get_is_on(self):
         return self._getStoveIsOn() == 'on'
@@ -373,10 +374,16 @@ class Hottoh:
         ):
             return "black_out"
         if (
+            StoveState.STATUS_INGNITION_FAILED
+            == self.client._data[StoveRegisters.INDEX_STOVE_STATE]
+        ):
+            return "error_ignition_failed"
+        if (
             StoveState.STATUS_ANTI_FREEZE
             == self.client._data[StoveRegisters.INDEX_STOVE_STATE]
         ):
             return "anti_freeze"
+        return str(self.client._data[StoveRegisters.INDEX_STOVE_STATE])
 
     def _getStoveIsOn(self):
         if self.client._data[StoveRegisters.INDEX_STOVE_ON] == "1":

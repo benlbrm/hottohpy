@@ -19,7 +19,7 @@ class HottohRemoteClient:
     _info = None
     _data = None
     _write_request = False
-    _write_parameters = None
+    _write_parameters = []
     _disconnect_request = False
     socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -100,7 +100,7 @@ class HottohRemoteClient:
 
     def sendCommand(self, parameters):
         self._write_request = True
-        self._write_parameters = parameters
+        self._write_parameters.append(parameters)
         return True
 
     def loop(self):
@@ -113,10 +113,15 @@ class HottohRemoteClient:
                 self._data = self._get_data("DAT", ["0"])
                 # self.log.debug("Information Data %s", self._data)
                 # Write if needed
-                if self._write_request:
-                    self.log.debug("Send Command %s", self._write_parameters)
-                    res = self._set_data(self._write_parameters)
-                    self._write_request = False
+                while len(self._write_parameters):
+                    param = self._write_parameters[0]
+                    self.log.debug("Send Command %s", param)
+                    res = self._set_data(param)
+                    self.log.debug("Get Response command %s", res)
+                    self._write_parameters.remove(param)
+
+                self._write_parameters = []
+                self._write_request = False
                 
                 time.sleep(1)
             except socket.error as exc:
