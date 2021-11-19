@@ -1,6 +1,7 @@
 import logging
 import threading
 import socket
+import errno
 import time
 from .request import CommandMode, Request
 
@@ -86,14 +87,23 @@ class HottohRemoteClient:
     def _open_connection(self):
         if not self.was_connected:
             self.log.debug("Connection was_connected %s", self.was_connected)
-            self.socket.connect((self.address, self.port))
-            self.was_connected = True
-            
+            try:
+                self.socket.connect((self.address, self.port))
+                self.was_connected = True
+            except socket.error as error:
+                if error.errno == errno.EISCONN:
+                    self.log.error("Socket already connected to %s", self.address)
+                    # self.disconnect()
+                    # time.sleep(2)
+                    # self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                    # self.socket.connect((self.address, self.port))
+                    self.was_connected = True
+                else:
+                    raise error
+
             self._thread.daemon = True
             self._thread.start()
             
-
-
     def _extractData(self, data):
         # Split data to an array
         return data.split(";")
