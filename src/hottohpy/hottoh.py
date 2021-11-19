@@ -286,8 +286,7 @@ class Hottoh:
             return None
         if self.client._data[StoveRegisters.INDEX_MANUFACTURER] == "9":
             return "CMG"
-        else:
-            return str(self._data[StoveRegisters.INDEX_MANUFACTURER])
+        return str(self.client._data[StoveRegisters.INDEX_MANUFACTURER])
 
     def _getIsBitmapVisible(self):
         if self.client._data is None:
@@ -297,7 +296,7 @@ class Hottoh:
     def _getIsValid(self):
         if self.client._data is None:
             return None
-        return self._data[StoveRegisters.INDEX_VALID]
+        return self.client._data[StoveRegisters.INDEX_VALID]
 
     def _getStoveType(self):
         if self.client._data is None:
@@ -383,6 +382,16 @@ class Hottoh:
             == self.client._data[StoveRegisters.INDEX_STOVE_STATE]
         ):
             return "anti_freeze"
+        if (
+            StoveState.STATUS_COVER_OPEN
+            == self.client._data[StoveRegisters.INDEX_STOVE_STATE]
+        ):
+            return "error_cover_open"
+        if (
+            StoveState.STATUS_NO_PELLET
+            == self.client._data[StoveRegisters.INDEX_STOVE_STATE]
+        ):
+            return "error_no_pellet"
         return str(self.client._data[StoveRegisters.INDEX_STOVE_STATE])
 
     def _getStoveIsOn(self):
