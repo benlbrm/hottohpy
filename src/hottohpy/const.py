@@ -35,8 +35,10 @@ class StoveChronoMode(IntEnum):
 
 
 class StoveManufacturer(IntEnum):
+    STOVE_MANUFACTURER_CMG = 9
     STOVE_MANUFACTURER_65 = 65
     STOVE_MANUFACTURER_76 = 76
+    STOVE_MANUFACTURER_EDILKAMIN = 85
     STOVE_MANUFACTURER_100 = 100
 
 

@@ -2,7 +2,7 @@ import asyncio
 import threading
 import time
 from .request import CommandMode, Request
-from .const import StoveCommands, StoveRegisters, StoveState
+from .const import StoveCommands, StoveRegisters, StoveState, StoveManufacturer
 from .client import HottohRemoteClient
 import logging
 
@@ -28,7 +28,7 @@ class Hottoh:
         self._reader = None
         self._writer = None
         self.client = HottohRemoteClient(self.address, self.port)
-        self.delay = 1
+        self.delay = 10
         self.periodic_connection_running = False
         self.stop_connection = False
         self._thread = threading.Thread(
@@ -44,13 +44,14 @@ class Hottoh:
         # only one connection thread at a time!
         if self.periodic_connection_running:
             return
-        self.periodic_connection_running = True
+        self.periodic_connection_running = True 
         while not self.stop_connection:
             try:
-                self.is_connected = self._connect()
+                self.is_connected = self._connect()       
             except HottohConnectionError as error:
                 self.periodic_connection_running = False
                 self.on_disconnect(error)
+                time.sleep(self.delay)
                 return
             time.sleep(self.delay)
 
@@ -92,8 +93,6 @@ class Hottoh:
             # call the callback functions
             for callback in self.on_disconnect_callbacks:
                 callback(error)
-
-            return
 
         self.log.info("Disconnected from Hottoh %s", self.client.address)
 
@@ -284,8 +283,10 @@ class Hottoh:
     def _getManufacturer(self):
         if self.client._data is None:
             return None
-        if self.client._data[StoveRegisters.INDEX_MANUFACTURER] == "9":
+        if int(self.client._data[StoveRegisters.INDEX_MANUFACTURER]) == StoveManufacturer.STOVE_MANUFACTURER_CMG:
             return "CMG"
+        if int(self.client._data[StoveRegisters.INDEX_MANUFACTURER]) == StoveManufacturer.STOVE_MANUFACTURER_EDILKAMIN:
+            return "EdilKamin"
         return str(self.client._data[StoveRegisters.INDEX_MANUFACTURER])
 
     def _getIsBitmapVisible(self):

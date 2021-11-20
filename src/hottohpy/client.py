@@ -71,6 +71,7 @@ class HottohRemoteClient:
         self.socket.close()
         self.was_connected = False
         self._disconnect_request = False
+        self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     def _get_data(self, command, parameters):
         request = Request(command=command, parameters=parameters)
@@ -88,16 +89,18 @@ class HottohRemoteClient:
         if not self.was_connected:
             self.log.debug("Connection was_connected %s", self.was_connected)
             try:
+                self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                 self.socket.connect((self.address, self.port))
                 self.was_connected = True
             except socket.error as error:
                 if error.errno == errno.EISCONN:
-                    self.log.error("Socket already connected to %s", self.address)
-                    # self.disconnect()
+                    self.log.debug("Socket already connected to %s", self.address)
+                    self._disconnect()
                     # time.sleep(2)
                     # self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                     # self.socket.connect((self.address, self.port))
-                    self.was_connected = True
+                    self.was_connected = False
+                    raise error
                 else:
                     raise error
 
