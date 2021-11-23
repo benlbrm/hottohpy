@@ -24,6 +24,7 @@ while True:
     print("_getIsBitmapVisible: %s", stove._getIsBitmapVisible())
     print("_getIsValid: %s", stove._getIsValid())
     print("_getStoveType: %s", stove._getStoveType())
+    print("_getStoveType Binary: %s", "{0:b}".format(23))
     print("_getStoveState: %s", stove._getStoveState())
     print("_getStoveIsOn: %s", stove._getStoveIsOn())
     print("_getEcoMode: %s", stove._getEcoMode())
@@ -80,6 +81,15 @@ while True:
     print("_getSetRoomTemp3: %s", stove._getSetRoomTemp3())
     print("_getSetMinRoomTemp3: %s", stove._getSetMinRoomTemp3())
     print("_getSetMaxRoomTemp3: %s", stove._getSetMaxRoomTemp3())
+
+    print("Boiler Enabled: %s", stove._isBoilerEnabled())
+    print("DHW Hot Water Enabled: %s", stove._isDomesticHotWaterEnabled())
+    print("Fan number: %s", stove._getFanNumber())
+    print("Pump Enabled: %s", stove._isPumpEnabled())
+    print("Temp Room 1 Enabled: %s", stove._isTempRoom1Enabled())
+    print("Temp Room 2 Enabled: %s", stove._isTempRoom2Enabled())
+    print("Temp Room 3 Enabled: %s", stove._isTempRoom3Enabled())
+    print("Temp Water Enabled: %s", stove._isTempWaterEnabled())
     print("#### End Stove Data's ####")
     time.sleep(2)
 

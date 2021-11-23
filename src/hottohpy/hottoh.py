@@ -5,6 +5,7 @@ from .request import CommandMode, Request
 from .const import StoveCommands, StoveRegisters, StoveState, StoveManufacturer
 from .client import HottohRemoteClient
 import logging
+from bitstring import BitArray
 
 # _LOGGER = logging.getLogger(__name__)
 
@@ -301,8 +302,8 @@ class Hottoh:
 
     def _getStoveType(self):
         if self.client._data is None:
-            return None
-        return str(self.client._data[StoveRegisters.INDEX_STOVE_TYPE])
+            return 0
+        return int(self.client._data[StoveRegisters.INDEX_STOVE_TYPE])
 
     def _getStoveState(self):
         if self.client._data is None:
@@ -679,3 +680,41 @@ class Hottoh:
         if self.client._data2 is None:
             return None
         return self.client._data2[StoveRegisters.INDEX_ROOM_TEMP_3_SET_MAX]
+
+    def _getStoveTypeBitArray(self):
+        return BitArray(uint=self._getStoveType(), length=16)
+
+    def _isBoilerEnabled(self):
+        type = self._getStoveTypeBitArray()
+        return type[9]
+
+    def _isDomesticHotWaterEnabled(self):
+        type = self._getStoveTypeBitArray()
+        return type[10]
+
+    def _getFanNumber(self):
+        type = self._getStoveTypeBitArray()
+        nb = type[12:14]
+        return nb.int
+    
+    def _isTempRoom1Enabled(self):
+        type = self._getStoveTypeBitArray()
+        return type[15]
+
+    def _isTempRoom2Enabled(self):
+        type = self._getStoveTypeBitArray()
+        return type[8]
+
+    def _isTempRoom3Enabled(self):
+        type = self._getStoveTypeBitArray()
+        return type[7]
+
+    def _isTempWaterEnabled(self):
+        type = self._getStoveTypeBitArray()
+        return type[14]
+
+    def _isPumpEnabled(self):
+        type = self._getStoveTypeBitArray()
+        print(type.bin)
+        return type[4]
+
