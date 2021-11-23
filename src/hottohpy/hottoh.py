@@ -641,26 +641,6 @@ class Hottoh:
             return None
         return self.client._data2[StoveRegisters.INDEX_DHW_SET_MAX]
 
-    def _getDhw(self):
-        if self.client._data2 is None:
-            return None
-        return self.client._data2[StoveRegisters.INDEX_DHW]
-
-    def _getSetDhw(self):
-        if self.client._data2 is None:
-            return None
-        return self.client._data2[StoveRegisters.INDEX_DHW_SET]
-
-    def _getSetMinDhw(self):
-        if self.client._data2 is None:
-            return None
-        return self.client._data2[StoveRegisters.INDEX_DHW_SET_MIN]
-
-    def _getSetMaxDhw(self):
-        if self.client._data2 is None:
-            return None
-        return self.client._data2[StoveRegisters.INDEX_DHW_SET_MAX]
-
     def _getRoomTemp3(self):
         if self.client._data2 is None:
             return None
@@ -715,6 +695,5 @@ class Hottoh:
 
     def _isPumpEnabled(self):
         type = self._getStoveTypeBitArray()
-        print(type.bin)
         return type[4]
 
