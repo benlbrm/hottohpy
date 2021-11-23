@@ -396,18 +396,24 @@ class Hottoh:
         return str(self.client._data[StoveRegisters.INDEX_STOVE_STATE])
 
     def _getStoveIsOn(self):
+        if self.client._data is None:
+            return None
         if self.client._data[StoveRegisters.INDEX_STOVE_ON] == "1":
             return "on"
         else:
             return "off"
 
     def _getEcoMode(self):
+        if self.client._data is None:
+            return None
         if self.client._data[StoveRegisters.INDEX_ECO_MODE] == "1":
             return "on"
         else:
             return "off"
 
     def _getChronoMode(self):
+        if self.client._data is None:
+            return None
         if self.client._data[StoveRegisters.INDEX_TIMER_ON] == "1":
             return "on"
         else:
@@ -424,33 +430,53 @@ class Hottoh:
         return 0
 
     def _getSetMaxTemperatureRoom1(self):
+        if self.client._data is None:
+            return 0
         return str(int(self.client._data[StoveRegisters.INDEX_AMBIENT_T1_SET_MAX]) / 10)
 
     def _getSetMinTemperatureRoom1(self):
+        if self.client._data is None:
+            return 0
         return str(int(self.client._data[StoveRegisters.INDEX_AMBIENT_T1_SET_MIN]) / 10)
 
     def _getTemperatureRoom2(self):
+        if self.client._data is None:
+            return 0
         return str(int(self.client._data[StoveRegisters.INDEX_AMBIENT_T2]) / 10)
 
     def _getSetTemperatureRoom2(self):
+        if self.client._data is None:
+            return 0
         return str(int(self.client._data[StoveRegisters.INDEX_AMBIENT_T2_SET]) / 10)
 
     def _getSetMaxTemperatureRoom2(self):
+        if self.client._data is None:
+            return 0
         return str(int(self.client._data[StoveRegisters.INDEX_AMBIENT_T2_SET_MAX]) / 10)
 
     def _getSetMinTemperatureRoom2(self):
+        if self.client._data is None:
+            return 0
         return str(int(self.client._data[StoveRegisters.INDEX_AMBIENT_T2_SET_MIN]) / 10)
 
     def _getTemperatureWater(self):
+        if self.client._data is None:
+            return 0
         return str(int(self.client._data[StoveRegisters.INDEX_WATER]) / 10)
 
     def _getSetTemperatureWater(self):
+        if self.client._data is None:
+            return 0
         return str(int(self.client._data[StoveRegisters.INDEX_WATER_SET]) / 10)
 
     def _getSetMaxTemperatureWater(self):
+        if self.client._data is None:
+            return 0
         return str(int(self.client._data[StoveRegisters.INDEX_WATER_SET_MAX]) / 10)
 
     def _getSetMinTemperatureWater(self):
+        if self.client._data is None:
+            return 0
         return str(int(self.client._data[StoveRegisters.INDEX_WATER_SET_MIN]) / 10)
 
     def _getSmokeTemperature(self):
@@ -459,45 +485,73 @@ class Hottoh:
         return 0
 
     def _getPowerLevel(self):
+        if self.client._data is None:
+            return 0
         return self.client._data[StoveRegisters.INDEX_POWER_LEVEL]
 
     def _getSetPowerLevel(self):
+        if self.client._data is None:
+            return 0
         return self.client._data[StoveRegisters.INDEX_POWER_SET]
 
     def _getSetMaxPowerLevel(self):
+        if self.client._data is None:
+            return 0
         return self.client._data[StoveRegisters.INDEX_POWER_MAX]
 
     def _getSetMinPowerLevel(self):
+        if self.client._data is None:
+            return 0
         return self.client._data[StoveRegisters.INDEX_POWER_MIN]
 
     def _getSpeedFanSmoke(self):
+        if self.client._data is None:
+            return 0
         return self.client._data[StoveRegisters.INDEX_FAN_SMOKE]
 
     def _getSpeedFan1(self):
+        if self.client._data is None:
+            return 0
         return self.client._data[StoveRegisters.INDEX_FAN_1]
 
     def _getSetSpeedFan1(self):
+        if self.client._data is None:
+            return 0
         return self.client._data[StoveRegisters.INDEX_FAN_1_SET]
 
     def _getSetMaxSpeedFan1(self):
+        if self.client._data is None:
+            return 0
         return self.client._data[StoveRegisters.INDEX_FAN_1_SET_MAX]
 
     def _getSpeedFan2(self):
+        if self.client._data is None:
+            return 0
         return self.client._data[StoveRegisters.INDEX_FAN_2]
 
     def _getSetSpeedFan2(self):
+        if self.client._data is None:
+            return 0
         return self.client._data[StoveRegisters.INDEX_FAN_2_SET]
 
     def _getSetMaxSpeedFan2(self):
+        if self.client._data is None:
+            return 0
         return self.client._data[StoveRegisters.INDEX_FAN_2_SET_MAX]
 
     def _getSpeedFan3(self):
+        if self.client._data is None:
+            return 0
         return self.client._data[StoveRegisters.INDEX_FAN_3]
 
     def _getSetSpeedFan3(self):
+        if self.client._data is None:
+            return 0
         return self.client._data[StoveRegisters.INDEX_FAN_3_SET]
 
     def _getSetMaxSpeedFan3(self):
+        if self.client._data is None:
+            return 0
         return self.client._data[StoveRegisters.INDEX_FAN_3_SET_MAX]
 
 ## Datapoints from data2
