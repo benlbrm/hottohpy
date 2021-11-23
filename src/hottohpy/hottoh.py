@@ -499,3 +499,129 @@ class Hottoh:
 
     def _getSetMaxSpeedFan3(self):
         return self.client._data[StoveRegisters.INDEX_FAN_3_SET_MAX]
+
+## Datapoints from data2
+    def _getFlowSwitch(self):
+        if self.client._data2 is None:
+            return None
+        return self.client._data2[StoveRegisters.INDEX_FLOW_SWITCH]
+
+    def _getGenericPump(self):
+        if self.client._data2 is None:
+            return None
+        return self.client._data2[StoveRegisters.INDEX_GENERIC_PUMP]
+
+    def _getAirEx1(self):
+        if self.client._data2 is None:
+            return None
+        return self.client._data2[StoveRegisters.INDEX_AIREX_1]
+
+    def _getAirEx2(self):
+        if self.client._data2 is None:
+            return None
+        return self.client._data2[StoveRegisters.INDEX_AIREX_2]
+
+    def _getAirEx3(self):
+        if self.client._data2 is None:
+            return None
+        return self.client._data2[StoveRegisters.INDEX_AIREX_3]
+
+    def _getPuffer(self):
+        if self.client._data2 is None:
+            return None
+        return self.client._data2[StoveRegisters.INDEX_PUFFER]
+
+    def _getSetPuffer(self):
+        if self.client._data2 is None:
+            return None
+        return self.client._data2[StoveRegisters.INDEX_PUFFER_SET]
+
+    def _getSetMinPuffer(self):
+        if self.client._data2 is None:
+            return None
+        return self.client._data2[StoveRegisters.INDEX_PUFFER_SET_MIN]
+
+    def _getSetMaxPuffer(self):
+        if self.client._data2 is None:
+            return None
+        return self.client._data2[StoveRegisters.INDEX_PUFFER_SET_MAX]
+
+    def _getBoiler(self):
+        if self.client._data2 is None:
+            return None
+        return self.client._data2[StoveRegisters.INDEX_BOILER]
+
+    def _getSetBoiler(self):
+        if self.client._data2 is None:
+            return None
+        return self.client._data2[StoveRegisters.INDEX_BOILER_SET]
+
+    def _getSetMinBoiler(self):
+        if self.client._data2 is None:
+            return None
+        return self.client._data2[StoveRegisters.INDEX_BOILER_SET_MIN]
+
+    def _getSetMaxBoiler(self):
+        if self.client._data2 is None:
+            return None
+        return self.client._data2[StoveRegisters.INDEX_BOILER_SET_MAX]
+
+    def _getDhw(self):
+        if self.client._data2 is None:
+            return None
+        return self.client._data2[StoveRegisters.INDEX_DHW]
+
+    def _getSetDhw(self):
+        if self.client._data2 is None:
+            return None
+        return self.client._data2[StoveRegisters.INDEX_DHW_SET]
+
+    def _getSetMinDhw(self):
+        if self.client._data2 is None:
+            return None
+        return self.client._data2[StoveRegisters.INDEX_DHW_SET_MIN]
+
+    def _getSetMaxDhw(self):
+        if self.client._data2 is None:
+            return None
+        return self.client._data2[StoveRegisters.INDEX_DHW_SET_MAX]
+
+    def _getDhw(self):
+        if self.client._data2 is None:
+            return None
+        return self.client._data2[StoveRegisters.INDEX_DHW]
+
+    def _getSetDhw(self):
+        if self.client._data2 is None:
+            return None
+        return self.client._data2[StoveRegisters.INDEX_DHW_SET]
+
+    def _getSetMinDhw(self):
+        if self.client._data2 is None:
+            return None
+        return self.client._data2[StoveRegisters.INDEX_DHW_SET_MIN]
+
+    def _getSetMaxDhw(self):
+        if self.client._data2 is None:
+            return None
+        return self.client._data2[StoveRegisters.INDEX_DHW_SET_MAX]
+
+    def _getRoomTemp3(self):
+        if self.client._data2 is None:
+            return None
+        return self.client._data2[StoveRegisters.INDEX_ROOM_TEMP_3]
+
+    def _getSetRoomTemp3(self):
+        if self.client._data2 is None:
+            return None
+        return self.client._data2[StoveRegisters.INDEX_ROOM_TEMP_3_SET]
+
+    def _getSetMinRoomTemp3(self):
+        if self.client._data2 is None:
+            return None
+        return self.client._data2[StoveRegisters.INDEX_ROOM_TEMP_3_SET_MIN]
+
+    def _getSetMaxRoomTemp3(self):
+        if self.client._data2 is None:
+            return None
+        return self.client._data2[StoveRegisters.INDEX_ROOM_TEMP_3_SET_MAX]

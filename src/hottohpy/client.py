@@ -19,6 +19,7 @@ class HottohRemoteClient:
     on_disconnect = None
     _info = None
     _data = None
+    _data2 = None
     _write_request = False
     _write_parameters = []
     _disconnect_request = False
@@ -125,6 +126,7 @@ class HottohRemoteClient:
                 # Get Data
                 self._data = self._get_data("DAT", ["0"])
                 # self.log.debug("Information Data %s", self._data)
+                self._data2 = self._get_data("DAT", ["2"])
                 # Write if needed
                 while len(self._write_parameters):
                     param = self._write_parameters[0]
