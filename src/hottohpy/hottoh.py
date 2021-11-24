@@ -208,15 +208,87 @@ class Hottoh:
     def get_smoke_temperature(self):
         return float(self._getSmokeTemperature())
 
-    def get_fan_speed(self):
+    def get_water_temperature(self):
+        return float(self._getTemperatureWater())
+
+    def get_set_water_temperature(self):
+        return float(self._getSetTemperatureWater())
+
+    def get_set_min_water_temperature(self):
+        return float(self._getSetMinTemperatureWater())
+
+    def get_set_max_water_temperature(self):
+        return float(self._getSetMaxTemperatureWater())
+
+    def get_speed_fan_smoke(self):
         return float(self._getSpeedFanSmoke())
 
-    def get_temperature(self):
+    def get_temperature_room_1(self):
         return float(self._getTemperatureRoom1())
     
-    def get_set_temperature(self):
+    def get_set_temperature_room_1(self):
         return float(self._getSetTemperatureRoom1())
+
+    def get_set_min_temperature_room_1(self):
+        return float(self._getSetMinTemperatureRoom1())
+
+    def get_set_max_temperature_room_1(self):
+        return float(self._getSetMaxTemperatureRoom1())
+
+    def get_temperature_room_2(self):
+        return float(self._getTemperatureRoom2())
     
+    def get_set_temperature_room_2(self):
+        return float(self._getSetTemperatureRoom2())
+
+    def get_temperature_room_3(self):
+        return float(self._getTemperatureRoom3())
+    
+    def get_set_temperature_room_3(self):
+        return float(self._getSetTemperatureRoom3())
+
+    def get_speed_fan_1(self):
+        return float(self._getSpeedFan1()) * 20 # convert 0-100%
+
+    def get_set_speed_fan_1(self):
+        return float(self._getSetSpeedFan1()) * 20 # convert 0-100%
+
+    def get_set_max_speed_fan_1(self):
+        return float(self._getSetMaxSpeedFan1()) * 20 # convert 0-100%
+
+    def get_speed_fan_2(self):
+        return float(self._getSpeedFan2()) * 20 # convert 0-100%
+
+    def get_set_speed_fan_2(self):
+        return float(self._getSetSpeedFan2()) * 20 # convert 0-100%
+
+    def get_set_max_speed_fan_2(self):
+        return float(self._getSetMaxSpeedFan2()) * 20 # convert 0-100%
+
+    def get_speed_fan_3(self):
+        return float(self._getSpeedFan3()) * 20 # convert 0-100%
+
+    def get_set_speed_fan_3(self):
+        return float(self._getSetSpeedFan3()) * 20 # convert 0-100%
+
+    def get_set_max_speed_fan_3(self):
+        return float(self._getSetMaxSpeedFan3()) * 20 # convert 0-100%  
+
+    def get_power_level(self):
+        return float(self._getPowerLevel()) * 20 # convert 0-100%
+    
+    def get_set_power_level(self):
+        return float(self._getSetPowerLevel()) * 20 # convert 0-100%
+
+    def get_set_min_power_level(self):
+        return float(self._getSetMinPowerLevel()) * 20 # convert 0-100%
+
+    def get_set_max_power_level(self):
+        return float(self._getSetMaxPowerLevel()) * 20 # convert 0-100%
+
+    def get_air_ex_1(self):
+        return float(self._getAirEx1())
+
     def get_action(self):
         self.log.debug('Stove Action: ' + self._getStoveState())
         if self._getStoveState() in ['switched_off', 'black_out', 'eco_stop_2', 'eco_stop_3']:
@@ -641,12 +713,12 @@ class Hottoh:
             return None
         return self.client._data2[StoveRegisters.INDEX_DHW_SET_MAX]
 
-    def _getRoomTemp3(self):
+    def _getTemperatureRoom3(self):
         if self.client._data2 is None:
             return None
         return self.client._data2[StoveRegisters.INDEX_ROOM_TEMP_3]
 
-    def _getSetRoomTemp3(self):
+    def _getSetTemperatureRoom3(self):
         if self.client._data2 is None:
             return None
         return self.client._data2[StoveRegisters.INDEX_ROOM_TEMP_3_SET]
@@ -664,36 +736,36 @@ class Hottoh:
     def _getStoveTypeBitArray(self):
         return BitArray(uint=self._getStoveType(), length=16)
 
-    def _isBoilerEnabled(self):
+    def isBoilerEnabled(self):
         type = self._getStoveTypeBitArray()
         return type[9]
 
-    def _isDomesticHotWaterEnabled(self):
+    def isDomesticHotWaterEnabled(self):
         type = self._getStoveTypeBitArray()
         return type[10]
 
-    def _getFanNumber(self):
+    def getFanNumber(self):
         type = self._getStoveTypeBitArray()
         nb = type[12:14]
         return nb.int
     
-    def _isTempRoom1Enabled(self):
+    def isTempRoom1Enabled(self):
         type = self._getStoveTypeBitArray()
         return type[15]
 
-    def _isTempRoom2Enabled(self):
+    def isTempRoom2Enabled(self):
         type = self._getStoveTypeBitArray()
         return type[8]
 
-    def _isTempRoom3Enabled(self):
+    def isTempRoom3Enabled(self):
         type = self._getStoveTypeBitArray()
         return type[7]
 
-    def _isTempWaterEnabled(self):
+    def isTempWaterEnabled(self):
         type = self._getStoveTypeBitArray()
         return type[14]
 
-    def _isPumpEnabled(self):
+    def isPumpEnabled(self):
         type = self._getStoveTypeBitArray()
         return type[4]
 
