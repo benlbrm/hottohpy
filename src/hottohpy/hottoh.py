@@ -248,43 +248,43 @@ class Hottoh:
         return float(self._getSetTemperatureRoom3())
 
     def get_speed_fan_1(self):
-        return float(self._getSpeedFan1()) * 20 # convert 0-100%
+        return float(self._getSpeedFan1()) * 10 # convert 0-100%
 
     def get_set_speed_fan_1(self):
-        return float(self._getSetSpeedFan1()) * 20 # convert 0-100%
+        return float(self._getSetSpeedFan1()) * 10 # convert 0-100%
 
     def get_set_max_speed_fan_1(self):
-        return float(self._getSetMaxSpeedFan1()) * 20 # convert 0-100%
+        return float(self._getSetMaxSpeedFan1()) * 10 # convert 0-100%
 
     def get_speed_fan_2(self):
-        return float(self._getSpeedFan2()) * 20 # convert 0-100%
+        return float(self._getSpeedFan2()) * 10 # convert 0-100%
 
     def get_set_speed_fan_2(self):
-        return float(self._getSetSpeedFan2()) * 20 # convert 0-100%
+        return float(self._getSetSpeedFan2()) * 10 # convert 0-100%
 
     def get_set_max_speed_fan_2(self):
-        return float(self._getSetMaxSpeedFan2()) * 20 # convert 0-100%
+        return float(self._getSetMaxSpeedFan2()) * 10 # convert 0-100%
 
     def get_speed_fan_3(self):
-        return float(self._getSpeedFan3()) * 20 # convert 0-100%
+        return float(self._getSpeedFan3()) * 10 # convert 0-100%
 
     def get_set_speed_fan_3(self):
-        return float(self._getSetSpeedFan3()) * 20 # convert 0-100%
+        return float(self._getSetSpeedFan3()) * 10 # convert 0-100%
 
     def get_set_max_speed_fan_3(self):
-        return float(self._getSetMaxSpeedFan3()) * 20 # convert 0-100%  
+        return float(self._getSetMaxSpeedFan3()) * 10 # convert 0-100%  
 
     def get_power_level(self):
-        return float(self._getPowerLevel()) * 20 # convert 0-100%
+        return float(self._getPowerLevel()) * 10 # convert 0-100%
     
     def get_set_power_level(self):
-        return float(self._getSetPowerLevel()) * 20 # convert 0-100%
+        return float(self._getSetPowerLevel()) * 10 # convert 0-100%
 
     def get_set_min_power_level(self):
-        return float(self._getSetMinPowerLevel()) * 20 # convert 0-100%
+        return float(self._getSetMinPowerLevel()) * 10 # convert 0-100%
 
     def get_set_max_power_level(self):
-        return float(self._getSetMaxPowerLevel()) * 20 # convert 0-100%
+        return float(self._getSetMaxPowerLevel()) * 10 # convert 0-100%
 
     def get_air_ex_1(self):
         return float(self._getAirEx1())
