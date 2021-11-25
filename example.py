@@ -24,7 +24,6 @@ while True:
     print("_getIsBitmapVisible: %s", stove._getIsBitmapVisible())
     print("_getIsValid: %s", stove._getIsValid())
     print("_getStoveType: %s", stove._getStoveType())
-    print("_getStoveType Binary: %s", "{0:b}".format(23))
     print("_getStoveState: %s", stove._getStoveState())
     print("_getStoveIsOn: %s", stove._getStoveIsOn())
     print("_getEcoMode: %s", stove._getEcoMode())
