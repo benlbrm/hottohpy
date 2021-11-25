@@ -122,7 +122,7 @@ class Hottoh:
         # mutex.release()
         return self._extractData(f"{data}")
 
-    def setTemperature(self, value):
+    def set_temperature(self, value):
         """Set Target Temperature of the stove"""
         try:
             result = self.client.sendCommand(
@@ -135,7 +135,7 @@ class Hottoh:
         except:
             raise
 
-    def setPowerLevel(self, value):
+    def set_power_level(self, value):
         """Set power level of the stove"""
         try:
             result = self.client.sendCommand(
@@ -175,7 +175,7 @@ class Hottoh:
         except:
             raise
 
-    def setEcoModeOn(self):
+    def set_eco_mode_on(self):
         """Set Eco Mode of the stove"""
         try:
             result = self.client.sendCommand(
@@ -185,7 +185,7 @@ class Hottoh:
         except:
             raise
 
-    def setEcoModeOff(self):
+    def set_eco_mode_off(self):
         """Set Eco Mode of the stove"""
         try:
             result = self.client.sendCommand(
@@ -195,7 +195,7 @@ class Hottoh:
         except:
             raise
 
-    def setChronoModeOn(self):
+    def set_chrono_mode_on(self):
         """Set Eco Mode of the stove"""
         try:
             result = self.client.sendCommand(
@@ -205,7 +205,7 @@ class Hottoh:
         except:
             raise
 
-    def setChronoModeOff(self):
+    def set_chrono_mode_off(self):
         """Set Eco Mode of the stove"""
         try:
             result = self.client.sendCommand(
@@ -215,7 +215,7 @@ class Hottoh:
         except:
             raise
 
-    def setOn(self):
+    def set_on(self):
         """Set On/ Off  the stove"""
         try:
             result = self.client.sendCommand(
@@ -225,7 +225,7 @@ class Hottoh:
         except:
             raise
 
-    def setOff(self):
+    def set_off(self):
         """Set On/ Off  the stove"""
         try:
             result = self.client.sendCommand(
