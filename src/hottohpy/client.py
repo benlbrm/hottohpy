@@ -20,13 +20,15 @@ class HottohRemoteClient:
     _info = None
     _data = None
     _data2 = None
+    _raw = None
     _write_request = False
     _write_parameters = []
     _disconnect_request = False
     socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-    def __init__(self, address="192.168.4.10", port=5001):
+    def __init__(self, address="192.168.4.10", port=5001, id=0):
         """Create tcp client."""
+        self.id = id
         self.address = address
         self.port = port
         self.log = logging.getLogger(__name__)
@@ -75,15 +77,23 @@ class HottohRemoteClient:
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     def _get_data(self, command, parameters):
-        request = Request(command=command, parameters=parameters)
+        request = Request(command=command, parameters=parameters, id=self.id)
         self.socket.send(request.getRequest())
         data = self.socket.recv(1024)
         return self._extractData(f"{data}")
 
     def _set_data(self, parameters):
-        request = Request(command="DAT", mode="W", parameters=parameters)
+        request = Request(command="DAT", mode="W", parameters=parameters, id=self.id)
         self.socket.send(request.getRequest())
         data = self.socket.recv(1024)
+        return self._extractData(f"{data}")
+    
+    def _set_raw(self, command, mode, parameters):
+        request = Request(command=command, mode=mode, parameters=parameters, id=self.id)
+        print(request.getRequest())
+        self.socket.send(request.getRequest())
+        data = self.socket.recv(1024)
+        print(data)
         return self._extractData(f"{data}")
 
     def _open_connection(self):
@@ -120,6 +130,7 @@ class HottohRemoteClient:
     def loop(self):
         while not self._disconnect_request:
             try:
+                # self._raw = self._set_raw("BRQ", "E", ["\"95.110.247.27\"", "47067"])
                 # Get info
                 self._info = self._get_data("INF", [""])
                 # self.log.debug("Information Data %s", self._info)

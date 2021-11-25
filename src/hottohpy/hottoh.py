@@ -18,7 +18,7 @@ class HottohConnectionError(Exception):
 
 class Hottoh:
     _fetching = False
-    def __init__(self, address, port):
+    def __init__(self, address, port, id=0):
         """Communicate with HottoH stove wifi module"""
         self.log = logging.getLogger(__name__)
         self.port = port
@@ -28,7 +28,7 @@ class Hottoh:
         self.hottoh_connected = False
         self._reader = None
         self._writer = None
-        self.client = HottohRemoteClient(self.address, self.port)
+        self.client = HottohRemoteClient(self.address, self.port, id)
         self.delay = 10
         self.periodic_connection_running = False
         self.stop_connection = False
@@ -359,8 +359,6 @@ class Hottoh:
             return 'stopping'
         if self._getStoveState() in ['eco_stop_1_standby', 'standby']:
             return 'idle'
-        if self._getStoveState() in ['low_pellet', 'end_pellet']:
-            return 'end_pellet'
         return self._getStoveState()
 
     def get_is_on(self):
@@ -428,91 +426,47 @@ class Hottoh:
     def _getStoveState(self):
         if self.client._data is None:
             return "not_connected"
-        if StoveState.STATUS_OFF == int(
-            self.client._data[StoveRegisters.INDEX_STOVE_STATE]
-        ):
+        if StoveState.STATUS_OFF == int(self.client._data[StoveRegisters.INDEX_STOVE_STATE]):
             return "switched_off"
-        if StoveState.STATUS_STARTING_1 == int(
-            self.client._data[StoveRegisters.INDEX_STOVE_STATE]
-        ):
+        if StoveState.STATUS_STARTING_1 == int(self.client._data[StoveRegisters.INDEX_STOVE_STATE]):
             return "starting_1_check"
-        if StoveState.STATUS_STARTING_2 == int(
-            self.client._data[StoveRegisters.INDEX_STOVE_STATE]
-        ):
+        if StoveState.STATUS_STARTING_2 == int(self.client._data[StoveRegisters.INDEX_STOVE_STATE]):
             return "starting_2_clean_all"
-        if StoveState.STATUS_STARTING_3 == int(
-            self.client._data[StoveRegisters.INDEX_STOVE_STATE]
-        ):
+        if StoveState.STATUS_STARTING_3 == int(self.client._data[StoveRegisters.INDEX_STOVE_STATE]):
             return "starting_3_loading"
-        if StoveState.STATUS_STARTING_4 == int(
-            self.client._data[StoveRegisters.INDEX_STOVE_STATE]
-        ):
+        if StoveState.STATUS_STARTING_4 == int(self.client._data[StoveRegisters.INDEX_STOVE_STATE]):
             return "starting_4_waiting"
-        if StoveState.STATUS_STARTING_5 == int(
-            self.client._data[StoveRegisters.INDEX_STOVE_STATE]
-        ):
+        if StoveState.STATUS_STARTING_5 == int(self.client._data[StoveRegisters.INDEX_STOVE_STATE]):
             return "starting_5_waiting"
-        if StoveState.STATUS_STARTING_6 == int(
-            self.client._data[StoveRegisters.INDEX_STOVE_STATE]
-        ):
+        if StoveState.STATUS_STARTING_6 == int(self.client._data[StoveRegisters.INDEX_STOVE_STATE]):
             return "starting_6_ignition"
-        if StoveState.STATUS_STARTING_7 == int(
-            self.client._data[StoveRegisters.INDEX_STOVE_STATE]
-        ):
+        if StoveState.STATUS_STARTING_7 == int(self.client._data[StoveRegisters.INDEX_STOVE_STATE]):
             return "starting_7_stabilization"
         if StoveState.STATUS_POWER == int(self.client._data[StoveRegisters.INDEX_STOVE_STATE]):
             return "power"
-        if StoveState.STATUS_STOPPING_1 == int(
-            self.client._data[StoveRegisters.INDEX_STOVE_STATE]
-        ):
+        if StoveState.STATUS_STOPPING_1 == int(self.client._data[StoveRegisters.INDEX_STOVE_STATE]):
             return "stopping_1_wait_standby"
-        if StoveState.STATUS_STOPPING_2 == int(
-            self.client._data[StoveRegisters.INDEX_STOVE_STATE]
-        ):
+        if StoveState.STATUS_STOPPING_2 == int(self.client._data[StoveRegisters.INDEX_STOVE_STATE]):
             return "stopping_2_wait_standby"
-        if StoveState.STATUS_ECO_STOP_1 == int(
-            self.client._data[StoveRegisters.INDEX_STOVE_STATE]
-        ):
+        if StoveState.STATUS_ECO_STOP_1 == int(self.client._data[StoveRegisters.INDEX_STOVE_STATE]):
             return "eco_stop_1_standby"
-        if StoveState.STATUS_ECO_STOP_2 == int(
-            self.client._data[StoveRegisters.INDEX_STOVE_STATE]
-        ):
+        if StoveState.STATUS_ECO_STOP_2 == int(self.client._data[StoveRegisters.INDEX_STOVE_STATE]):
             return "eco_stop_2"
-        if StoveState.STATUS_ECO_STOP_3 == int(
-            self.client._data[StoveRegisters.INDEX_STOVE_STATE]
-        ):
+        if StoveState.STATUS_ECO_STOP_3 == int(self.client._data[StoveRegisters.INDEX_STOVE_STATE]):
             return "eco_stop_3"
-        if StoveState.STATUS_LOW_PELLET == int(
-            self.client._data[StoveRegisters.INDEX_STOVE_STATE]
-        ):
+        if StoveState.STATUS_LOW_PELLET == int(self.client._data[StoveRegisters.INDEX_STOVE_STATE]):
             return "low_pellet"
-        if StoveState.STATUS_END_PELLET == int(
-            self.client._data[StoveRegisters.INDEX_STOVE_STATE]
-        ):
+        if StoveState.STATUS_END_PELLET == int(self.client._data[StoveRegisters.INDEX_STOVE_STATE]):
             return "end_pellet"
-        if StoveState.STATUS_BLACK_OUT == int(
-            self.client._data[StoveRegisters.INDEX_STOVE_STATE]
-        ):
+        if StoveState.STATUS_BLACK_OUT == int(self.client._data[StoveRegisters.INDEX_STOVE_STATE]):
             return "black_out"
-        if (
-            StoveState.STATUS_INGNITION_FAILED
-            == self.client._data[StoveRegisters.INDEX_STOVE_STATE]
-        ):
+        if StoveState.STATUS_INGNITION_FAILED == int(self.client._data[StoveRegisters.INDEX_STOVE_STATE]):
             return "error_ignition_failed"
-        if (
-            StoveState.STATUS_ANTI_FREEZE
-            == self.client._data[StoveRegisters.INDEX_STOVE_STATE]
-        ):
+        if StoveState.STATUS_ANTI_FREEZE == int(self.client._data[StoveRegisters.INDEX_STOVE_STATE]):
             return "anti_freeze"
-        if (
-            StoveState.STATUS_COVER_OPEN
-            == self.client._data[StoveRegisters.INDEX_STOVE_STATE]
-        ):
+        if StoveState.STATUS_COVER_OPEN == int(self.client._data[StoveRegisters.INDEX_STOVE_STATE]):
             return "error_cover_open"
-        if (
-            StoveState.STATUS_NO_PELLET
-            == self.client._data[StoveRegisters.INDEX_STOVE_STATE]
-        ):
+        if StoveState.STATUS_NO_PELLET== int(self.client._data[StoveRegisters.INDEX_STOVE_STATE]):
             return "error_no_pellet"
         return str(self.client._data[StoveRegisters.INDEX_STOVE_STATE])
 

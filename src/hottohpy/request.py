@@ -12,9 +12,7 @@ class CommandMode(Enum):
     WRITE = "W"
     EXECUTE = "E"
 
-
 IdSocket = 0
-
 
 class Request:
     def __init__(self, command="DAT", mode="R", parameters=["0"], id=0):
@@ -23,15 +21,14 @@ class Request:
         self.mode = mode
         self.parameters = parameters
         self.id = id
-        # self.socketId = 1
         self.request = ""
         self._buildRawPacket()
 
     def _buildRawPacket(self):
         """Buld raw packet from data"""
-        strSocketId = str(self.id).zfill(5)
+        strSocketId = str(0).zfill(5)
         strRawData = self._getRawData()
-        strData = strSocketId + "A---" + strRawData
+        strData = strSocketId + "C---" + strRawData
         strCrc = self._getCrc(strData)
         self.request = "#" + strData + strCrc + "\n"
 

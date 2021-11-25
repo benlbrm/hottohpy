@@ -6,7 +6,7 @@ sys.path.append('src')
 from hottohpy import Hottoh
 import time
 
-stove = Hottoh('192.168.4.10' ,5001)
+stove = Hottoh('192.168.4.10' ,5001, "lib")
 
 stove.connect()
 
