@@ -15,8 +15,8 @@ attempt = 1
 while True:
     print("#### Start Stove Data's ####")
     print("Info: %s", stove.client._info)
-    print("Info: %s", stove.client._data)
-    print("Info: %s", stove.client._data2)
+    print("Data: %s", stove.client._data)
+    print("Data2: %s", stove.client._data2)
     print("_getFirmwareVersion: %s", stove._getFirmwareVersion())
     print("_getWifiSignal: %s", stove._getWifiSignal())
     print("_getPageIndex: %s", stove._getPageIndex())

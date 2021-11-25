@@ -145,6 +145,36 @@ class Hottoh:
         except:
             raise
 
+    def set_speed_fan_1(self, value):
+        """Set speed level of Fan 1"""
+        try:
+            result = self.client.sendCommand(
+                parameters=[str(StoveCommands.PARAM_NIVEAU_FAN_1.value), str(value)]
+            )
+            return result
+        except:
+            raise
+
+    def set_speed_fan_2(self, value):
+        """Set speed level of Fan 2"""
+        try:
+            result = self.client.sendCommand(
+                parameters=[str(StoveCommands.PARAM_NIVEAU_FAN_2.value), str(value)]
+            )
+            return result
+        except:
+            raise
+
+    def set_speed_fan_3(self, value):
+        """Set speed level of Fan 3"""
+        try:
+            result = self.client.sendCommand(
+                parameters=[str(StoveCommands.PARAM_NIVEAU_FAN_3.value), str(value)]
+            )
+            return result
+        except:
+            raise
+
     def setEcoModeOn(self):
         """Set Eco Mode of the stove"""
         try:
@@ -241,53 +271,71 @@ class Hottoh:
     def get_set_temperature_room_2(self):
         return float(self._getSetTemperatureRoom2())
 
+    def get_set_min_temperature_room_2(self):
+        return float(self._getSetMinTemperatureRoom2())
+
+    def get_set_max_temperature_room_2(self):
+        return float(self._getSetMaxTemperatureRoom2())
+
     def get_temperature_room_3(self):
         return float(self._getTemperatureRoom3())
     
     def get_set_temperature_room_3(self):
         return float(self._getSetTemperatureRoom3())
 
+    def get_set_min_temperature_room_3(self):
+        return float(self._getSetMinTemperatureRoom3())
+
+    def get_set_max_temperature_room_3(self):
+        return float(self._getSetMaxTemperatureRoom3())
+
     def get_speed_fan_1(self):
-        return float(self._getSpeedFan1()) * 10 # convert 0-100%
+        return int(self._getSpeedFan1())
 
     def get_set_speed_fan_1(self):
-        return float(self._getSetSpeedFan1()) * 10 # convert 0-100%
+        return int(self._getSetSpeedFan1())
 
     def get_set_max_speed_fan_1(self):
-        return float(self._getSetMaxSpeedFan1()) * 10 # convert 0-100%
+        return int(self._getSetMaxSpeedFan1())
 
     def get_speed_fan_2(self):
-        return float(self._getSpeedFan2()) * 10 # convert 0-100%
+        return float(self._getSpeedFan2())
 
     def get_set_speed_fan_2(self):
-        return float(self._getSetSpeedFan2()) * 10 # convert 0-100%
+        return float(self._getSetSpeedFan2())
 
     def get_set_max_speed_fan_2(self):
-        return float(self._getSetMaxSpeedFan2()) * 10 # convert 0-100%
+        return float(self._getSetMaxSpeedFan2())
 
     def get_speed_fan_3(self):
-        return float(self._getSpeedFan3()) * 10 # convert 0-100%
+        return float(self._getSpeedFan3())
 
     def get_set_speed_fan_3(self):
-        return float(self._getSetSpeedFan3()) * 10 # convert 0-100%
+        return float(self._getSetSpeedFan3())
 
     def get_set_max_speed_fan_3(self):
-        return float(self._getSetMaxSpeedFan3()) * 10 # convert 0-100%  
+        return float(self._getSetMaxSpeedFan3()) 
 
     def get_power_level(self):
-        return float(self._getPowerLevel()) * 10 # convert 0-100%
+        return float(self._getPowerLevel())
     
     def get_set_power_level(self):
-        return float(self._getSetPowerLevel()) * 10 # convert 0-100%
+        return float(self._getSetPowerLevel())
 
     def get_set_min_power_level(self):
-        return float(self._getSetMinPowerLevel()) * 10 # convert 0-100%
+        return float(self._getSetMinPowerLevel())
 
     def get_set_max_power_level(self):
-        return float(self._getSetMaxPowerLevel()) * 10 # convert 0-100%
+        return float(self._getSetMaxPowerLevel())
 
     def get_air_ex_1(self):
         return float(self._getAirEx1())
+
+    def get_air_ex_2(self):
+        return float(self._getAirEx2())
+
+    def get_air_ex_3(self):
+        return float(self._getAirEx3())
 
     def get_action(self):
         self.log.debug('Stove Action: ' + self._getStoveState())
@@ -532,6 +580,26 @@ class Hottoh:
             return 0
         return str(int(self.client._data[StoveRegisters.INDEX_AMBIENT_T2_SET_MIN]) / 10)
 
+    def _getTemperatureRoom3(self):
+        if self.client._data2 is None:
+            return None
+        return str(int(self.client._data2[StoveRegisters.INDEX_ROOM_TEMP_3]) / 10)
+
+    def _getSetTemperatureRoom3(self):
+        if self.client._data2 is None:
+            return None
+        return str(int(self.client._data2[StoveRegisters.INDEX_ROOM_TEMP_3_SET]) / 10)
+
+    def _getSetMinTemperatureRoom3(self):
+        if self.client._data2 is None:
+            return None
+        return str(int(self.client._data2[StoveRegisters.INDEX_ROOM_TEMP_3_SET_MIN]) / 10)
+
+    def _getSetMaxTemperatureRoom3(self):
+        if self.client._data2 is None:
+            return None
+        return str(int(self.client._data2[StoveRegisters.INDEX_ROOM_TEMP_3_SET_MAX]) / 10)
+
     def _getTemperatureWater(self):
         if self.client._data is None:
             return 0
@@ -712,26 +780,6 @@ class Hottoh:
         if self.client._data2 is None:
             return None
         return self.client._data2[StoveRegisters.INDEX_DHW_SET_MAX]
-
-    def _getTemperatureRoom3(self):
-        if self.client._data2 is None:
-            return None
-        return self.client._data2[StoveRegisters.INDEX_ROOM_TEMP_3]
-
-    def _getSetTemperatureRoom3(self):
-        if self.client._data2 is None:
-            return None
-        return self.client._data2[StoveRegisters.INDEX_ROOM_TEMP_3_SET]
-
-    def _getSetMinRoomTemp3(self):
-        if self.client._data2 is None:
-            return None
-        return self.client._data2[StoveRegisters.INDEX_ROOM_TEMP_3_SET_MIN]
-
-    def _getSetMaxRoomTemp3(self):
-        if self.client._data2 is None:
-            return None
-        return self.client._data2[StoveRegisters.INDEX_ROOM_TEMP_3_SET_MAX]
 
     def _getStoveTypeBitArray(self):
         return BitArray(uint=self._getStoveType(), length=16)
