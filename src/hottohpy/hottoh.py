@@ -53,7 +53,7 @@ class Hottoh:
                 self.periodic_connection_running = False
                 self.on_disconnect(error)
                 time.sleep(self.delay)
-                return
+                # return
             time.sleep(self.delay)
 
         self.client.disconnect()
@@ -338,7 +338,6 @@ class Hottoh:
         return float(self._getAirEx3())
 
     def get_action(self):
-        self.log.debug('Stove Action: ' + self._getStoveState())
         if self._getStoveState() in ['switched_off', 'black_out', 'eco_stop_2', 'eco_stop_3']:
             return 'off'
         if self._getStoveState() in ['starting_1_check']:

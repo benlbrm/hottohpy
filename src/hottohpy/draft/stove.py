@@ -133,7 +133,6 @@ class Stove(Hottoh):
         return float(self._getSetTemperatureRoom1())
     
     def get_action(self):
-        _LOGGER.debug('_Stove Action: ' + self._getStoveState())
         if self._getStoveState() in ['switched_off', 'black_out', 'eco_stop_2', 'eco_stop_3']:
             return 'off'
         if self._getStoveState() in ['starting_1_check']:

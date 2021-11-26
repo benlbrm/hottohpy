@@ -15,6 +15,7 @@ class HottohRemoteClient:
     port = None
     log = None
     was_connected = False
+    _is_connected = False
     on_connect = None
     on_disconnect = None
     _info = None
@@ -45,6 +46,9 @@ class HottohRemoteClient:
                 return True
             return False
         return False
+
+    def is_connected(self):
+        return self._is_connected
 
     def connect(self):
         attempt = 1
@@ -79,12 +83,14 @@ class HottohRemoteClient:
     def _get_data(self, command, parameters):
         request = Request(command=command, parameters=parameters, id=self.id)
         self.socket.send(request.getRequest())
+        self.socket.settimeout(5)
         data = self.socket.recv(1024)
         return self._extractData(f"{data}")
 
     def _set_data(self, parameters):
         request = Request(command="DAT", mode="W", parameters=parameters, id=self.id)
         self.socket.send(request.getRequest())
+        self.socket.settimeout(5)
         data = self.socket.recv(1024)
         return self._extractData(f"{data}")
     
@@ -92,6 +98,7 @@ class HottohRemoteClient:
         request = Request(command=command, mode=mode, parameters=parameters, id=self.id)
         print(request.getRequest())
         self.socket.send(request.getRequest())
+        self.socket.settimeout(5)
         data = self.socket.recv(1024)
         print(data)
         return self._extractData(f"{data}")
@@ -115,6 +122,7 @@ class HottohRemoteClient:
                 else:
                     raise error
 
+            self.log.debug("Start thread to read data")
             self._thread.daemon = True
             self._thread.start()
             
@@ -130,6 +138,7 @@ class HottohRemoteClient:
     def loop(self):
         while not self._disconnect_request:
             try:
+                self._is_connected = True
                 # self._raw = self._set_raw("BRQ", "E", ["\"95.110.247.27\"", "47067"])
                 # Get info
                 self._info = self._get_data("INF", [""])
@@ -153,7 +162,9 @@ class HottohRemoteClient:
             except socket.error as exc:
                 self.log.error("Connection Error : %s", exc)
                 self._disconnect_request = True
+                self._is_connected = False
 
+        self._is_connected = False
         self._disconnect()
 
             
