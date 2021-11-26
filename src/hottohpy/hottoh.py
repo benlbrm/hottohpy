@@ -663,7 +663,6 @@ class Hottoh:
     def _getGenericPump(self):
         if self.client._data2 is None:
             return 0
-        self.log.info("Generic Pump State %s", self.client._data2[StoveRegisters.INDEX_GENERIC_PUMP]) 
         return self.client._data2[StoveRegisters.INDEX_GENERIC_PUMP]
 
     def _getAirEx1(self):
