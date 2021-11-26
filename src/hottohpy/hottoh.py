@@ -384,6 +384,11 @@ class Hottoh:
     def get_manufacturer(self):
         return self._getManufacturer()
 
+    def get_water_pump(self):
+        if int(self._getGenericPump()) == 0:
+            return False
+        return True
+
     def _getFirmwareVersion(self):
         if self.client._info is None:
             return None
@@ -652,12 +657,13 @@ class Hottoh:
 ## Datapoints from data2
     def _getFlowSwitch(self):
         if self.client._data2 is None:
-            return None
+            return 0
         return self.client._data2[StoveRegisters.INDEX_FLOW_SWITCH]
 
     def _getGenericPump(self):
         if self.client._data2 is None:
-            return None
+            return 0
+        self.log.info("Generic Pump State %s", self.client._data2[StoveRegisters.INDEX_GENERIC_PUMP]) 
         return self.client._data2[StoveRegisters.INDEX_GENERIC_PUMP]
 
     def _getAirEx1(self):
