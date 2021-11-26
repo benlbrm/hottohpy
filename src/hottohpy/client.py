@@ -152,6 +152,7 @@ class HottohRemoteClient:
                 time.sleep(1)
             except socket.error as exc:
                 self.log.error("Connection Error : %s", exc)
+                self._disconnect_request = True
 
         self._disconnect()
 
