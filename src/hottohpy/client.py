@@ -83,14 +83,14 @@ class HottohRemoteClient:
     def _get_data(self, command, parameters):
         request = Request(command=command, parameters=parameters, id=self.id)
         self.socket.send(request.getRequest())
-        self.socket.settimeout(5)
+        self.socket.settimeout(60)
         data = self.socket.recv(1024)
         return self._extractData(f"{data}")
 
     def _set_data(self, parameters):
         request = Request(command="DAT", mode="W", parameters=parameters, id=self.id)
         self.socket.send(request.getRequest())
-        self.socket.settimeout(5)
+        self.socket.settimeout(60)
         data = self.socket.recv(1024)
         return self._extractData(f"{data}")
     
@@ -98,7 +98,7 @@ class HottohRemoteClient:
         request = Request(command=command, mode=mode, parameters=parameters, id=self.id)
         print(request.getRequest())
         self.socket.send(request.getRequest())
-        self.socket.settimeout(5)
+        self.socket.settimeout(60)
         data = self.socket.recv(1024)
         print(data)
         return self._extractData(f"{data}")
