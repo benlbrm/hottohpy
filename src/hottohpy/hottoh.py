@@ -135,6 +135,19 @@ class Hottoh:
         except:
             raise
 
+    def set_water_temperature(self, value):
+        """Set Target Water Temperature of the stove"""
+        try:
+            result = self.client.sendCommand(
+                parameters=[
+                    str(StoveCommands.INCONNU_4.value),
+                    str(value * 10),
+                ]
+            )
+            return result
+        except:
+            raise
+
     def set_power_level(self, value):
         """Set power level of the stove"""
         try:
@@ -365,6 +378,9 @@ class Hottoh:
 
     def get_eco_mode(self):
         return self._getEcoMode() == 'on'
+
+    def get_chrono_mode(self):
+        return self._getChronoMode() == 'on'
         
     def get_mode(self):
         return self._getStoveIsOn()
