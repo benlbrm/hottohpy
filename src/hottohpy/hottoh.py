@@ -365,6 +365,9 @@ class Hottoh:
 
     def get_eco_mode(self):
         return self._getEcoMode() == 'on'
+
+    def get_chrono_mode(self):
+        return self._getChronoMode() == 'on'
         
     def get_mode(self):
         return self._getStoveIsOn()
