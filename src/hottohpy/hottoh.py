@@ -17,89 +17,21 @@ class HottohConnectionError(Exception):
     pass
 
 class Hottoh:
-    _fetching = False
     def __init__(self, address, port, id=0):
         """Communicate with HottoH stove wifi module"""
         self.log = logging.getLogger(__name__)
         self.port = port
         self.address = address
-        self._buffsize = 1024
-        self.is_connected = False
-        self.hottoh_connected = False
-        self._reader = None
-        self._writer = None
         self.client = HottohRemoteClient(self.address, self.port, id)
-        self.delay = 10
-        self.periodic_connection_running = False
-        self.stop_connection = False
-        self._thread = threading.Thread(
-            target=self.periodic_connection, name="hottohpy"
-        )
-        self.client_error = None
-        self.on_disconnect_callbacks = []
-
-    def register_on_disconnect_callback(self, callback):
-        self.on_disconnect_callbacks.append(callback)
-
-    def periodic_connection(self):
-        # only one connection thread at a time!
-        if self.periodic_connection_running:
-            return
-        self.periodic_connection_running = True 
-        while not self.stop_connection:
-            try:
-                self.is_connected = self._connect()       
-            except HottohConnectionError as error:
-                self.periodic_connection_running = False
-                self.on_disconnect(error)
-                time.sleep(self.delay)
-                # return
-            time.sleep(self.delay)
-
-        self.client.disconnect()
-        self.periodic_connection_running = False
 
     def connect(self):
-        if self.is_connected or self.periodic_connection_running:
-            return
-
-        self._thread.daemon = True
-        self._thread.start()
-        
-        self.time = time.time()  # save connection time
-
-    def _connect(self):
-        is_connected = self.client.connect()
-        if not is_connected:
-            raise HottohConnectionError(
-                "Unable to connect to Hottoh at {}".format(
-                    self.client.address
-                )
-            )
-        return is_connected
+        self.client.start()
 
     def disconnect(self):
-        self.stop_connection = True
+        self.client.stop()
 
-    def on_disconnect(self, error):
-        self.hottoh_connected = False
-        self.client_error = error
-        if error is not None:
-            self.log.warning(
-                "Unexpectedly disconnected from Hottoh %s, code %s",
-                self.client.address,
-                error,
-            )
-
-            # call the callback functions
-            for callback in self.on_disconnect_callbacks:
-                callback(error)
-
-        self.log.info("Disconnected from Hottoh %s", self.client.address)
-
-    def check(self):
-        """Test connectivity with the stove."""
-        return self.client.check()
+    def is_connected(self):
+        return self.client.is_connected()
 
     def _extractData(self, data):
         # Split data to an array
@@ -107,20 +39,6 @@ class Hottoh:
             
     def _getMac(self):
         return "aabbccddeeff"
-
-    async def _setCommand(self, parameters):
-        """Set data from to the stove"""
-        # mutex.acquire()
-        request = Request(command="DAT", mode="W", parameters=parameters)
-        reader, writer = await asyncio.open_connection(self.ip, self.port)
-        writer.write(request.getRequest())
-        await writer.drain()
-        data = await reader.read(self._buffsize)
-        self.log.debug(data)
-        writer.close()
-        await writer.wait_closed()
-        # mutex.release()
-        return self._extractData(f"{data}")
 
     def set_temperature(self, value):
         """Set Target Temperature of the stove"""
